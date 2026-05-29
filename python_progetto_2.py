@@ -35,14 +35,16 @@ def inizializza_cartelle(cartella_base: Path):
     
     for nome_cartella in cartelle_da_creare:
         percorso_cartella = cartella_base / nome_cartella
-        # TO-DO: Usa pathlib per creare la cartella se non esiste (suggerimento: .mkdir())
-        pass
+        # TO-DO RISOLTO: Usa pathlib per creare la cartella se non esiste (suggerimento: .mkdir())
+        if percorso_cartella.exists():
+            continue
+        percorso_cartella.mkdir()
 
 def organizza_file(cartella_target: Path):
     """
     Scansiona la cartella target e sposta i file in base alla loro estensione.
     """
-    # BUG 1: C'è un problema nel modo in cui iteriamo sui file. 
+    # BUG 1 RISOLTO: C'è un problema nel modo in cui iteriamo sui file. 
     # Così come è scritto, rischiamo di scansionare ricorsivamente anche le cartelle appena create!
     for elemento in cartella_target.glob('*'):
         
@@ -61,7 +63,7 @@ def organizza_file(cartella_target: Path):
             
             # TO-DO: Spostare fisicamente il file nel 'nuovo_percorso'
             # Suggerimento: si può usare os.rename() oppure il metodo di pathlib elemento.rename()
-            pass
+            elemento.rename(nuovo_percorso)
         else:
             # TO-DO (Opzionale): Gestire i file con estensioni sconosciute 
             # (es. metterli in una cartella 'Altro')
@@ -74,7 +76,7 @@ def main():
     """
     
     # Controllo degli argomenti passati da linea di comando
-    # BUG 2: Il controllo sulla lunghezza di sys.argv è errato per verificare la presenza di un argomento.
+    # BUG 2 RISOLTO: Il controllo sulla lunghezza di sys.argv è errato per verificare la presenza di un argomento.
     if len(sys.argv) < 2:
         print("Errore: Devi specificare il percorso di una cartella!")
         print("Uso: python organizer.py <percorso_cartella>")
