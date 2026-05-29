@@ -44,7 +44,7 @@ def organizza_file(cartella_target: Path):
     """
     # BUG 1: C'è un problema nel modo in cui iteriamo sui file. 
     # Così come è scritto, rischiamo di scansionare ricorsivamente anche le cartelle appena create!
-    for elemento in cartella_target.rglob('*'):
+    for elemento in cartella_target.glob('*'):
         
         # Saltiamo le directory, vogliamo solo i file
         if elemento.is_dir():
@@ -75,7 +75,7 @@ def main():
     
     # Controllo degli argomenti passati da linea di comando
     # BUG 2: Il controllo sulla lunghezza di sys.argv è errato per verificare la presenza di un argomento.
-    if len(sys.argv) < 1:
+    if len(sys.argv) < 2:
         print("Errore: Devi specificare il percorso di una cartella!")
         print("Uso: python organizer.py <percorso_cartella>")
         sys.exit(1)
