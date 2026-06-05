@@ -18,6 +18,7 @@ ESTENSIONI_MAPPA = {
     '.pdf': 'Documenti',
     '.docx': 'Documenti',
     '.txt': 'Documenti',
+    '.jpeg': 'Immagini',
     '.jpg': 'Immagini',
     '.png': 'Immagini',
     '.mp3': 'Musica',
@@ -61,13 +62,19 @@ def organizza_file(cartella_target: Path):
             
             print(f"Spostamento di {elemento.name} in {nome_cartella_dest}...")
             
-            # TO-DO: Spostare fisicamente il file nel 'nuovo_percorso'
+            # TO-DO RISOLTO: Spostare fisicamente il file nel 'nuovo_percorso'
             # Suggerimento: si può usare os.rename() oppure il metodo di pathlib elemento.rename()
             elemento.rename(nuovo_percorso)
         else:
-            # TO-DO (Opzionale): Gestire i file con estensioni sconosciute 
+            # TO-DO (Opzionale) RISOLTO: Gestire i file con estensioni sconosciute 
             # (es. metterli in una cartella 'Altro')
-            pass
+            sconosciuto_percorso = cartella_target / "Altro"
+            if not sconosciuto_percorso.exists():
+                sconosciuto_percorso.mkdir()
+            #poi sposta il file...
+            nuovo_percorso = sconosciuto_percorso / elemento.name
+            elemento.rename(nuovo_percorso)            
+                
 
 def main():
     """
@@ -86,8 +93,14 @@ def main():
     percorso_inserito = sys.argv[1]
     cartella_da_organizzare = Path(percorso_inserito)
     
-    # TO-DO: Verificare se la cartella esiste veramente ed è una directory valida.
+    # TO-DO RISOLTO: Verificare se la cartella esiste veramente ed è una directory valida.
     # Se non esiste, stampare un errore e uscire con sys.exit(1).
+    
+    if cartella_da_organizzare.exists():
+        print("Cartella esistente, procedendo con l'organizzazione")
+    else:
+        print("Cartella non esistente, terminando programma...")
+        sys.exit(1)
     
     print(f"Avvio organizzazione nella cartella: {cartella_da_organizzare.absolute()}")
     
